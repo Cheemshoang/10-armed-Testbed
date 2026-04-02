@@ -7,15 +7,15 @@ st.set_page_config(page_title="10-Armed Bandit Testbed", layout="wide")
 st.title("🎰 Mô phỏng 10-Armed Testbed ($\epsilon$-Greedy)")
 st.markdown("Thay đổi các thông số ở cột bên trái để xem cách thuật toán cân bằng giữa Khám phá và Khai thác.")
 
-# --- SIDEBAR TƯƠNG TÁC ---
+
 st.sidebar.header("⚙️ Cài đặt thông số")
 k = st.sidebar.slider("Số lượng máy (k cánh tay)", min_value=2, max_value=20, value=10)
 steps = st.sidebar.slider("Số bước thời gian (Steps)", min_value=100, max_value=5000, value=1000)
 runs = st.sidebar.slider("Số lượt bài toán độc lập (Runs)", min_value=100, max_value=2000, value=2000, step=100)
 epsilons_input = st.sidebar.text_input("Nhập các giá trị Epsilon (cách nhau bằng dấu phẩy)", "0.0, 0.01, 0.1")
 
-# --- HÀM LÕI CHẠY THUẬT TOÁN (Tối ưu hóa bằng ma trận NumPy) ---
-@st.cache_data # Cache dữ liệu để web không bị load lại từ đầu nếu không đổi cấu hình
+
+@st.cache_data 
 def run_bandit_simulation(k, steps, runs, epsilons):
     results_reward = {}
     results_opt_action = {}
