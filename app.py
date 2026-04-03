@@ -2,15 +2,11 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Cấu hình trang
 st.set_page_config(page_title="k-Armed Bandit Testbed", layout="wide")
 st.title("Mô phỏng k-Armed Testbed")
-st.markdown("Thay đổi các thông số ở cột bên trái để xem cách thuật toán cân bằng giữa Khám phá và Khai thác.")
-
-
-st.sidebar.header("⚙️ Cài đặt thông số")
+st.sidebar.header("Cài đặt thông số")
 k = st.sidebar.slider("Số lượng k", min_value=2, max_value=20, value=10)
-steps = st.sidebar.slider("Số time-steps", min_value=100, max_value=5000, value=1000)
+steps = st.sidebar.slider("Số time-steps", min_value=100, max_value=10000, value=1000)
 runs = st.sidebar.slider("Số runs", min_value=100, max_value=2000, value=2000, step=100)
 epsilons_input = st.sidebar.text_input("Nhập các giá trị Epsilon (cách nhau bằng dấu phẩy)", "0.0, 0.01, 0.1")
 
@@ -50,12 +46,11 @@ def run_bandit_simulation(k, steps, runs, epsilons):
             N[np.arange(runs), action] += 1
             Q[np.arange(runs), action] += (reward - Q[np.arange(runs), action]) / N[np.arange(runs), action]
             
-        # means-runs
+        # means runs
         results_reward[eps] = rewards.mean(axis=0)
         results_opt_action[eps] = opt_actions.mean(axis=0) * 100 
         
     return results_reward, results_opt_action
-
 
 if st.sidebar.button("Run model", type="primary"):
     try:
@@ -66,8 +61,7 @@ if st.sidebar.button("Run model", type="primary"):
 
     with st.spinner('Thinking'):
         rewards_dict, opt_actions_dict = run_bandit_simulation(k, steps, runs, epsilons)
-    
-    # Chia bố cục 2 cột cho 2 biểu đồ
+        
     col1, col2 = st.columns(2)
     
     with col1:
@@ -92,4 +86,4 @@ if st.sidebar.button("Run model", type="primary"):
         ax2.grid(True, alpha=0.3)
         st.pyplot(fig2)
         
-    st.success("✅Please I need this")
+    st.success("Please I need this")
